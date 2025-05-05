@@ -10,6 +10,7 @@ use Illuminate\Http\Request; // Request is a class that handles HTTP requests
 use App\Models\voucher; // Voucher Model
 use Carbon\Carbon;// Carbon is a library for date and time manipulation
 use Illuminate\Support\Str; // Str is a class that provides string manipulation functions
+use App\Notifications\NewUserCredentials;
 
 
 // This is the AuthController class, which handles user authentication and registration.
@@ -75,6 +76,9 @@ class AuthController extends Controller
 
             ]);
 
+            // Send email notification with credentials
+            $user->notify(new NewUserCredentials($request->password));
+
             while (true) {
                 $datePart = Carbon::now()->format('Ymd');       // YYYYMMDD
                 $timePart = Carbon::now()->format('Hi');        // HHMM
@@ -96,7 +100,7 @@ class AuthController extends Controller
             $newVoucher->updated_at = Carbon::now();
             $newVoucher->save();
                 
-            return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+            return redirect()->route('login')->with('success', 'Registration successful. Please check your email for login credentials.');
         } catch (\Exception $e) {
             return back()->with('error', 'Registration failed. Please try again.'. $e->getMessage());
         }
