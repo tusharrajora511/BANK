@@ -28,6 +28,7 @@ class User extends Authenticatable
         'state',
         'country',
         'postal_code',
+        'voucher_id',
     ];
     
     /**

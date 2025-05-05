@@ -75,6 +75,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6 mb-3">
+                                <label for="postal_code" class="form-label">Voucher Code</label>
+                                <input type="text" class="form-control" id="voucher_code" name="voucher_code" value="{{ old('voucher_code') }}" required>
+                                </div>
+                        </div>
+
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Register</button>
                         </div>
