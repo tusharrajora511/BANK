@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Namespace declaration- basically tells where this file is located
+// This is the AuthController class, which handles user authentication and registration.
 use Illuminate\Support\Facades\Auth;
+// Hash is a facade for hashing passwords
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Models\voucher;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
+use App\Models\User;// User Model
+use Illuminate\Http\Request; // Request is a class that handles HTTP requests
+use App\Models\voucher; // Voucher Model
+use Carbon\Carbon;// Carbon is a library for date and time manipulation
+use Illuminate\Support\Str; // Str is a class that provides string manipulation functions
 
 
-
+// This is the AuthController class, which handles user authentication and registration.
 class AuthController extends Controller
-{
+{   
+
+    // This method shows the registration form
     public function showRegisterForm()
     {
         if (Auth::check()) {
@@ -21,12 +25,16 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    // This method handles the registration of a new user
     public function register(Request $request)
-    {
+    {   
+        // Check if the user is already authenticated
+        // If the user is already logged in, redirect them to the dashboard
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
-
+        // Validate the incoming request data
+        // The validate method checks the request data against the specified rules
         $new_data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -40,10 +48,12 @@ class AuthController extends Controller
             'voucher_code'=>'required|string|max:100',
         ]);
         // dd($new_data);
-
+        // Check if the user is already authenticated
+        // If the user is already logged in, redirect them to the dashboard
+        // Validate the incoming request data
         try {
 
-            $voucher = voucher::where('voucher_code',md5($new_data['voucher_code']))->first();
+            $voucher = voucher::where('voucher_code',md5($new_data['voucher_code']))->first(); // Check if the voucher code exists in the database
             // dd($voucher);
             
             if(!$voucher){
@@ -92,6 +102,7 @@ class AuthController extends Controller
         }
     }
 
+    // This method shows the login form
     public function showloginForm()
     {
         if (Auth::check()) {
@@ -100,6 +111,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    // This method handles the login of a user
     public function login(Request $request)
     {
         if (Auth::check()) {
@@ -111,6 +123,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // Attempt to authenticate the user with the provided credentials
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended('dashboard')->with('success', 'Welcome back!');
@@ -123,6 +136,9 @@ class AuthController extends Controller
             ]);
     }
 
+
+    // This method handles the logout of a user
+    // It invalidates the session and regenerates the CSRF token
     public function logout(Request $request)
     {
         Auth::logout();
