@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Controllers\Customers;
 
 // Redirect root to login if not authenticated
 Route::get('/', function () {
@@ -28,4 +29,6 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/customer',[Customers::class, 'customer'])->name('customer');
 });

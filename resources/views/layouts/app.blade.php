@@ -4,12 +4,41 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Bank Management System</title>
+        <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+            body {
+                font-family: 'Nunito', sans-serif;
+                background-color: #f8f9fc;
+            }
+            .navbar {
+                padding: 1rem;
+                background-color: #4e73df !important;
+            }
+            .navbar-brand {
+                color: white !important;
+                font-weight: bold;
+            }
+            .nav-link {
+                color: rgba(255,255,255,.8) !important;
+            }
+            .nav-link:hover {
+                color: white !important;
+            }
+            .btn-link {
+                color: rgba(255,255,255,.8) !important;
+            }
+            .btn-link:hover {
+                color: white !important;
+            }
+        </style>
+        @stack('styles')
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="/">Bank Management</a>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Bank Management System</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,7 +67,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main>
             @if(session('success'))
                 <div class="container">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -60,6 +89,10 @@
             @yield('content')
         </main>
 
+        <!-- Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        @stack('scripts')
     </body>
 </html>
